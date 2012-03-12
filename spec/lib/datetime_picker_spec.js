@@ -22,6 +22,11 @@ describe("datetimepicker.js", function () {
     })
 
     describe("select.hourpicker", function () {
+      var $select;
+      beforeEach(function () {
+        $select = $("select.ui-hourpicker");
+      });
+
       it("adds a dropdown for hours", function () {
         expect($("select.ui-hourpicker").length).toEqual(1);
       });
@@ -29,9 +34,20 @@ describe("datetimepicker.js", function () {
       it("adds an option for every hour, 12 hour style", function () {
         expect($("select.ui-hourpicker option").length).toEqual(12);
       });
+
+      it("changes the value in the datepicker's input when it is changed", function () {
+        expect($input.val()).not.toMatch(new RegExp($select.val()));
+        $select.change();
+        expect($input.val()).toMatch(new RegExp($select.val()));
+      });
     });
 
     describe("select.minutepicker", function () {
+      var $select;
+      beforeEach(function () {
+        $select = $("select.ui-minutepicker");
+      });
+
       it("adds a dropdown for minutes", function () {
         expect($("select.ui-minutepicker").length).toEqual(1);
       });
@@ -39,15 +55,19 @@ describe("datetimepicker.js", function () {
       it("adds an option for 5 minute intervals", function () {
         expect($("select.ui-minutepicker option").length).toEqual(12);
       });
+
+      it("changes the value in the datepicker's input when it is changed", function () {
+        expect($input.val()).not.toMatch(new RegExp($select.val()));
+        $select.change();
+        expect($input.val()).toMatch(new RegExp($select.val()));
+      });
     });
 
     describe("select.meridiempicker", function () {
-      var $select, $am, $pm;
+      var $select;
       beforeEach(function () {
         $select = $("select.ui-meridiempicker");
-        $am = $("select.ui-meridiempicker option:contains(am)");
-        $pm = $("select.ui-meridiempicker option:contains(pm)");
-      })
+      });
 
       it("adds a dropdown for am/pm", function () {
         expect($select.length).toEqual(1);
@@ -58,11 +78,10 @@ describe("datetimepicker.js", function () {
       });
 
       it("changes the value in the datepicker's input when it is changed", function () {
-        expect($select.find("option:selected").val()).toEqual("am");
-        $select.val("pm");
-        expect($select.find("option:selected").val()).toEqual("pm");
-        expect($input.val()).toMatch(/pm/);
-      })
-    })
+        expect($input.val()).not.toMatch(new RegExp($select.val()));
+        $select.change();
+        expect($input.val()).toMatch(new RegExp($select.val()));
+      });
+    });
   });
 });

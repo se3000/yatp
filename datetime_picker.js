@@ -1,53 +1,63 @@
 (function ($) {
   function Timepicker() {
-    var timepickerDiv, hourpicker, minutepicker, meridiempicker,
-        datepicker, input;
+    var timepickerDiv, datepicker, input;
 
     this.updateTime = function updateTime() {
       var date = input.val();
-      var hour = hourpicker.val();
-      var minute = minutepicker.val();
-      var meridiem = meridiempicker.val();
+      var hour = this.hourpicker.val();
+      var minute = this.minutepicker.val();
+      var meridiem = this.meridiempicker.val();
       input.val(date + " " + hour + ":" + minute + " " + meridiem)
     };
 
-   this.setupMinutepicker = function setupMinutepicker() {
-      minutepicker = $("<select class='ui-minutepicker' />");
+    this.updateValue = function updateValue() {
+      var id = "#" + this.datepicker.id;
+      $.datepicker._selectDate(id);
+    };
+
+    this.setupMinutepicker = function setupMinutepicker() {
+      this.minutepicker = $("<select class='ui-minutepicker' />");
       for(var i = 0; i <= 59; i += 5) {
-        minutepicker.append("<option value ='"+ i +"'>"+ i +"</option>");
+        this.minutepicker.append("<option value ='"+ i +"'>"+ i +"</option>");
       }
-      return minutepicker;
+      return this.minutepicker;
     };
 
     this.setupHourpicker = function setupDatepicker() {
-      hourpicker = $("<select class='ui-hourpicker' />");
+      this.hourpicker = $("<select class='ui-hourpicker' />");
       for(var i = 1; i <= 12; i += 1) {
-        hourpicker.append("<option value ='"+ i +"'>"+ i +"</option>");
+        this.hourpicker.append("<option value ='"+ i +"'>"+ i +"</option>");
       }
-      return hourpicker;
+      return this.hourpicker;
     };
 
     this.setupMeridiempicker = function setupMeridiempicker() {
-      meridiempicker = $("<select class='ui-meridiempicker' />");
-      meridiempicker.append("<option value='am'>am</option>");
-      meridiempicker.append("<option value='pm'>pm</option>");
+      this.meridiempicker = $("<select class='ui-meridiempicker' />");
+      this.meridiempicker.append("<option value='am'>am</option><option value='pm'>pm</option>");
 
-      return meridiempicker;
+      return this.meridiempicker;
     };
 
     this.setupTimepicker = function setupTimepicker(datepickerInst) {
-      timepickerDiv = $("<div class='ui-timepicker' />");
-      datepicker = datepickerInst;
-      input = datepicker.input;
       this.setupHourpicker();
       this.setupMinutepicker();
       this.setupMeridiempicker();
+      timepickerDiv = $("<div class='ui-timepicker' />");
+      this.datepicker = datepickerInst;
+      input = this.datepicker.input;
 
-      timepickerDiv.append(hourpicker)
-        .append(minutepicker)
-        .append(meridiempicker);
+      timepickerDiv.append(this.hourpicker)
+        .append(this.minutepicker)
+        .append(this.meridiempicker);
 
       return this;
+    };
+
+    this.setupCallbacks = function setupCallbacks() {
+      var self = this;
+      this.meridiempicker.on('change', function() {self.updateValue()});
+      this.hourpicker.on('change', function() {self.updateValue()});
+      this.minutepicker.on('change', function() {self.updateValue()});
     };
 
     this.getDiv = function getDiv() {
@@ -63,9 +73,10 @@
       timepicker.setupTimepicker(inst);
       inst.timepicker = timepicker;
     }
+    inst.timepicker.setupCallbacks();
     datepickerDiv.append(inst.timepicker.getDiv());
     return inst.timepicker;
-  }
+  };
 
   $.datepicker._originalUpdate = $.datepicker._updateDatepicker;
   $.datepicker._originalSelectDate = $.datepicker._selectDate;
