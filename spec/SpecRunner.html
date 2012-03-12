@@ -1,0 +1,66 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+  "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <title>Jasmine Spec Runner</title>
+
+  <link rel="shortcut icon" type="image/png" href="../vendor/jasmine-1.1.0.rc1/jasmine_favicon.png">
+
+  <link rel="stylesheet" type="text/css" href="../vendor/jasmine-1.1.0/jasmine.css">
+  <link rel="stylesheet" type="text/css" href="../vendor/jquery/themes/base/jquery.ui.all.css">
+  <script type="text/javascript" src="../vendor/jasmine-1.1.0/jasmine.js"></script>
+  <script type="text/javascript" src="../vendor/jasmine-1.1.0/jasmine-html.js"></script>
+  <script type="text/javascript" src="../vendor/jquery/jquery-1.7.1.js"></script>
+  <script type="text/javascript" src="../vendor/jquery/ui/minified/jquery.ui.core.min.js"></script>
+  <script type="text/javascript" src="../vendor/jquery/ui/minified/jquery.ui.widget.min.js"></script>
+  <script type="text/javascript" src="../vendor/jquery/ui/minified/jquery.ui.mouse.min.js"></script>
+  <script type="text/javascript" src="../vendor/jquery/ui/jquery.ui.datepicker.js"></script>
+  <script type="text/javascript" src="../vendor/jquery/ui/minified/jquery.ui.slider.min.js"></script>
+  <script type="text/javascript" src="helpers/spec_helper.js"></script>
+
+  <!-- include spec files here... -->
+  <script type="text/javascript" src="lib/datepicker_spec.js"></script>
+  <script type="text/javascript" src="lib/datetime_picker_spec.js"></script>
+  <!-- <script type="text/javascript" src="../../jQuery-Timepicker-Addon/jquery-ui-timepicker-addon.js"></script> -->
+
+  <!-- include source files here... -->
+  <script type="text/javascript" src="../datetime_picker.js"></script>
+
+  <script type="text/javascript">
+    (function() {
+      var jasmineEnv = jasmine.getEnv();
+      jasmineEnv.updateInterval = 1000;
+
+      var trivialReporter = new jasmine.TrivialReporter();
+
+      jasmineEnv.addReporter(trivialReporter);
+
+      jasmineEnv.specFilter = function(spec) {
+        return trivialReporter.specFilter(spec);
+      };
+
+      var currentWindowOnload = window.onload;
+
+      window.onload = function() {
+        if (currentWindowOnload) {
+          currentWindowOnload();
+        }
+        execJasmine();
+      };
+
+      function execJasmine() {
+        jasmineEnv.execute();
+      }
+    })();
+  </script>
+
+</head>
+
+<body>
+  <div id="jasmine_content"></div>
+  <div id='example'>
+    <input class='trial' />
+  </div>
+</body>
+</html>
+
