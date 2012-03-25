@@ -52,8 +52,13 @@ describe("datetimepicker.js", function () {
         expect($("select.ui-minutepicker").length).toEqual(1);
       });
 
-      it("adds an option for 5 minute intervals", function () {
+      it("adds an option for each 5 minute interval", function () {
         expect($("select.ui-minutepicker option").length).toEqual(12);
+      });
+
+      it("formats the minutes to fit mm format", function () {
+        expect($("select.ui-minutepicker option").eq(0).text()).toEqual("00");
+        expect($("select.ui-minutepicker option").eq(1).text()).toEqual("05");
       });
 
       it("changes the value in the datepicker's input when it is changed", function () {

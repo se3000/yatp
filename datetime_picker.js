@@ -15,10 +15,17 @@
       $.datepicker._selectDate(id);
     };
 
+    this.format = function format(value) {
+      var stringValue = value.toString();
+      if (stringValue.length < 2)
+        stringValue = "0" + stringValue;
+      return stringValue;
+    };
+
     this.setupMinutepicker = function setupMinutepicker() {
       this.minutepicker = $("<select class='ui-minutepicker' />");
       for(var i = 0; i <= 59; i += 5) {
-        this.minutepicker.append("<option value ='"+ i +"'>"+ i +"</option>");
+        this.minutepicker.append("<option value ='"+ this.format(i) +"'>"+ this.format(i) +"</option>");
       }
       return this.minutepicker;
     };
@@ -97,7 +104,6 @@
     }
     return this;
   };
-
 
   $.fn.datetimepicker = function datetimepicker() {
     this.datepicker({
