@@ -33,7 +33,7 @@
     this.setupHourpicker = function setupDatepicker() {
       this.hourpicker = $("<select class='ui-hourpicker' />");
       for(var i = 1; i <= 12; i += 1) {
-        this.hourpicker.append("<option value ='"+ i +"'>"+ i +"</option>");
+        this.hourpicker.append("<option value ='"+ this.format(i) +"'>"+ this.format(i) +"</option>");
       }
       return this.hourpicker;
     };

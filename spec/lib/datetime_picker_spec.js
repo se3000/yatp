@@ -31,6 +31,11 @@ describe("datetimepicker.js", function () {
         expect($("select.ui-hourpicker").length).toEqual(1);
       });
 
+      it("formats the hours to fit hh format", function () {
+        expect($("select.ui-hourpicker option").eq(0).text()).toEqual("01");
+        expect($("select.ui-hourpicker option").eq(8).text()).toEqual("09");
+      });
+
       it("adds an option for every hour, 12 hour style", function () {
         expect($("select.ui-hourpicker option").length).toEqual(12);
       });
