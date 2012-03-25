@@ -21,6 +21,15 @@ describe("datetimepicker.js", function () {
       expect($(".ui-timepicker").length).toEqual(1);
     })
 
+    it("does not close the datepicker when a select changes and focus on input", function () {
+      expect($(".ui-datepicker:visible").length).toEqual(1);
+      var $select = $("select.ui-minutepicker");
+      $select.change();
+      $input.focus();
+      $(".ui-datepicker td:contains(10)").click()
+      expect($(".ui-datepicker:visible").length).toEqual(1);
+    })
+
     describe("select.hourpicker", function () {
       var $select;
       beforeEach(function () {

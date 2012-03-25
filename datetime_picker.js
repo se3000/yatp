@@ -98,7 +98,9 @@
 
   $.datepicker._selectDate = function mySelectDate(id, dateStr) {
     var inst = this._getInst($(id)[0]);
+    inst.inline = true;
     this._originalSelectDate(id, dateStr);
+    inst.inline = false;
     if ($.datepicker._get(inst, 'useTimepicker')) {
       inst.timepicker.updateTime();
     }
