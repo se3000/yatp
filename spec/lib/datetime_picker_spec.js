@@ -54,6 +54,14 @@ describe("datetimepicker.js", function () {
         $select.change();
         expect($input.val()).toMatch(new RegExp($select.val()));
       });
+
+      it("does not change the date value", function () {
+        $select.change();
+        var originalValue = $input.val();
+        $(".ui-datepicker-next").click();
+        $select.change();
+        expect($input.val()).toEqual(originalValue);
+      });
     });
 
     describe("select.minutepicker", function () {
@@ -101,6 +109,31 @@ describe("datetimepicker.js", function () {
         $select.change();
         expect($input.val()).toMatch(new RegExp($select.val()));
       });
+    });
+
+    describe("changing the value in the input", function () {
+      describe("when the value has already been set", function () {
+        beforeEach(function () {
+          $("select.ui-meridiempicker").change();
+          $input.value = "03/25/2012 10:40 am"
+        });
+
+        it("sets the same value in the minutepicker", function () {
+          expect($("select.ui-minutepicker").val()).toEqual("40");
+        });
+      });
+    });
+  });
+
+  describe("#parseTime", function () {
+    it("parses the time and date into 2 seperate strings", function () {
+      times = parseDateTime("04/03/2012 01:00 am");
+      expect(times[0]).toEqual("04/03/2012");
+      expect(times[1]).toEqual("01:00 am");
+    });
+
+    it("doesn't blow up if there it can't parse the string", function () {
+      times = parseDateTime("ABCDEFGHI");
     });
   });
 });

@@ -1,18 +1,28 @@
+parseDateTime = function parseDateTime(originalTime) {
+  var parsed = [];
+  var dateMatcher = new RegExp("(\\d\\d/\\d\\d/\\d\\d\\d\\d)");
+  var timeMatcher = new RegExp("(\\d\\d:\\d\\d ?(?:a|p)m)", "i");
+  var parsedDate = originalTime.match(dateMatcher);
+  var parsedTime = originalTime.match(timeMatcher);
+
+  if (parsedDate != null) parsed[0] = parsedDate[1];
+  if (parsedTime != null) parsed[1] = parsedTime[1];
+
+  return parsed;
+};
+
 (function ($) {
   function Timepicker() {
     var timepickerDiv, datepicker, input;
 
     this.updateTime = function updateTime() {
-      var date = input.val();
+      var dateTime = parseDateTime(input.val());
+      var date = dateTime[0], time = dateTime[1];
+
       var hour = this.hourpicker.val();
       var minute = this.minutepicker.val();
       var meridiem = this.meridiempicker.val();
       input.val(date + " " + hour + ":" + minute + " " + meridiem)
-    };
-
-    this.updateValue = function updateValue() {
-      var id = "#" + this.datepicker.id;
-      $.datepicker._selectDate(id);
     };
 
     this.format = function format(value) {
@@ -62,9 +72,9 @@
 
     this.setupCallbacks = function setupCallbacks() {
       var self = this;
-      this.meridiempicker.on('change', function() {self.updateValue()});
-      this.hourpicker.on('change', function() {self.updateValue()});
-      this.minutepicker.on('change', function() {self.updateValue()});
+      this.meridiempicker.on('change', function() {self.updateTime()});
+      this.hourpicker.on('change', function() {self.updateTime()});
+      this.minutepicker.on('change', function() {self.updateTime()});
     };
 
     this.getDiv = function getDiv() {
