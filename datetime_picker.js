@@ -1,12 +1,17 @@
 parseDateTime = function parseDateTime(originalTime) {
   var parsed = [];
   var dateMatcher = new RegExp("(\\d\\d/\\d\\d/\\d\\d\\d\\d)");
-  var timeMatcher = new RegExp("(\\d\\d:\\d\\d ?(?:a|p)m)", "i");
+  var timeMatcher = new RegExp("(\\d\\d):(\\d\\d) ?((?:a|p)m)", "i");
   var parsedDate = originalTime.match(dateMatcher);
   var parsedTime = originalTime.match(timeMatcher);
 
-  if (parsedDate != null) parsed[0] = parsedDate[1];
-  if (parsedTime != null) parsed[1] = parsedTime[1];
+  if (parsedDate != null) parsed[0] = parsedDate[0];
+  if (parsedTime != null) {
+    parsed[1] = parsedTime[0];
+    parsed[2] = parsedTime[1];
+    parsed[3] = parsedTime[2];
+    parsed[4] = parsedTime[3];
+  }
 
   return parsed;
 };
@@ -16,6 +21,7 @@ parseDateTime = function parseDateTime(originalTime) {
     var timepickerDiv, datepicker, input;
 
     this.updateTime = function updateTime() {
+      if (this.transactionFlag) return;
       var dateTime = parseDateTime(input.val());
       var date = dateTime[0], time = dateTime[1];
 
@@ -25,10 +31,19 @@ parseDateTime = function parseDateTime(originalTime) {
       input.val(date + " " + hour + ":" + minute + " " + meridiem)
     };
 
+    this.updateTimePicker = function updateTimePicker() {
+      var dateTime = parseDateTime(input.val());
+
+      this.transactionFlag = true;
+        this.hourpicker.val(dateTime[2]);
+        this.minutepicker.val(dateTime[3]);
+        this.meridiempicker.val(dateTime[4]);
+      this.transactionFlag = false;
+    };
+
     this.format = function format(value) {
       var stringValue = value.toString();
-      if (stringValue.length < 2)
-        stringValue = "0" + stringValue;
+      if (stringValue.length < 2) stringValue = "0" + stringValue;
       return stringValue;
     };
 
@@ -75,6 +90,7 @@ parseDateTime = function parseDateTime(originalTime) {
       this.meridiempicker.on('change', function() {self.updateTime()});
       this.hourpicker.on('change', function() {self.updateTime()});
       this.minutepicker.on('change', function() {self.updateTime()});
+      input.on('change', function() {self.updateTimePicker()});
     };
 
     this.getDiv = function getDiv() {

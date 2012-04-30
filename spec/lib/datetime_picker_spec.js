@@ -112,15 +112,20 @@ describe("datetimepicker.js", function () {
     });
 
     describe("changing the value in the input", function () {
-      describe("when the value has already been set", function () {
-        beforeEach(function () {
-          $("select.ui-meridiempicker").change();
-          $input.value = "03/25/2012 10:40 am"
-        });
+      beforeEach(function () {
+        $input.val("03/25/2012 10:40 pm").change();
+      });
 
-        it("sets the same value in the minutepicker", function () {
-          expect($("select.ui-minutepicker").val()).toEqual("40");
-        });
+      it("sets the same value in the hourpicker", function () {
+        expect($("select.ui-hourpicker").val()).toEqual("10");
+      });
+
+      it("sets the same value in the minutepicker", function () {
+        expect($("select.ui-minutepicker").val()).toEqual("40");
+      });
+
+      it("sets the same value in the meridiempicker", function () {
+        expect($("select.ui-meridiempicker").val()).toEqual("pm");
       });
     });
   });
@@ -130,6 +135,9 @@ describe("datetimepicker.js", function () {
       times = parseDateTime("04/03/2012 01:00 am");
       expect(times[0]).toEqual("04/03/2012");
       expect(times[1]).toEqual("01:00 am");
+      expect(times[2]).toEqual("01");
+      expect(times[3]).toEqual("00");
+      expect(times[4]).toEqual("am");
     });
 
     it("doesn't blow up if there it can't parse the string", function () {
