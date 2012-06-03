@@ -169,7 +169,7 @@ describe("datetimepicker.js", function () {
 
   describe("#parseTime", function () {
     it("parses the time and date into 2 seperate strings", function () {
-      times = parseDateTime("04/03/2012 01:00 am");
+      times = timepicker.parseDateTime("04/03/2012 01:00 am");
       expect(times[0]).toEqual("04/03/2012");
       expect(times[1]).toEqual("01:00 am");
       expect(times[2]).toEqual("01");
@@ -178,7 +178,7 @@ describe("datetimepicker.js", function () {
     });
 
     it("doesn't blow up if there it can't parse the string", function () {
-      times = parseDateTime("ABCDEFGHI");
+      times = timepicker.parseDateTime("ABCDEFGHI");
     });
   });
 });
