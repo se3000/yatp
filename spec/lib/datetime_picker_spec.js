@@ -157,13 +157,14 @@ describe("datetimepicker.js", function () {
 
         it("allows you to type chars: ' apmAPM'", function () {
           var possibleChars = $.datepicker._possibleChars($.datepicker._get(inst, 'dateFormat'))
-          expect(possibleChars).toContain(' ')
-          expect(possibleChars).toContain('a')
-          expect(possibleChars).toContain('p')
-          expect(possibleChars).toContain('m')
-          expect(possibleChars).toContain('A')
-          expect(possibleChars).toContain('P')
-          expect(possibleChars).toContain('M')
+          expect(possibleChars).toContain(' ');
+          expect(possibleChars).toContain(':');
+          expect(possibleChars).toContain('a');
+          expect(possibleChars).toContain('p');
+          expect(possibleChars).toContain('m');
+          expect(possibleChars).toContain('A');
+          expect(possibleChars).toContain('P');
+          expect(possibleChars).toContain('M');
         });
       });
     });
