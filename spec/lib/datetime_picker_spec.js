@@ -218,4 +218,32 @@ describe("datetimepicker.js", function () {
       });
     });
   });
+
+  describe("with useMeridiem", function () {
+    beforeEach(function () {
+      var test_dom = "<div><input class='datetimepicker'></input></div>";
+      content(test_dom);
+      $input = $(".datetimepicker").datetimepicker({useMeridiem: false});
+      $input.focus();
+      inst = $.datepicker._getInst($input[0]);
+      timepicker = inst.timepicker;
+    });
+
+    it("does not add a dropdown for am/pm", function () {
+      expect($("select.ui-meridiempicker").length).toEqual(0);
+    });
+
+    it("adds a dropdown for hours", function () {
+      expect($("select.ui-hourpicker").length).toEqual(1);
+    });
+
+    it("formats the hours to fit hh format", function () {
+      expect($("select.ui-hourpicker option").eq(0).text()).toEqual("01");
+      expect($("select.ui-hourpicker option").eq(18).text()).toEqual("19");
+    });
+
+    it("adds an option for every hour, 24 hour style", function () {
+      expect($("select.ui-hourpicker option").length).toEqual(24);
+    });
+  });
 });

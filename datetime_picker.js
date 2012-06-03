@@ -8,10 +8,10 @@
       var date = dateTime[0] || this.getDate();
       var time = dateTime[1];
 
-      var hour = this.hourpicker.val();
-      var minute = this.minutepicker.val();
-      var meridiem = this.meridiempicker.val();
-      input.val(date + " " + hour + ":" + minute + " " + meridiem)
+      date = date + " " + this.hourpicker.val();
+      date = date + " " + this.minutepicker.val();
+      if (useMeridiem) date = date + " " +this.meridiempicker.val();
+      input.val(date);
     };
 
     this.getDate = function getDate() {
@@ -62,7 +62,12 @@
 
     this.setupHourpicker = function setupDatepicker() {
       this.hourpicker = $("<select class='ui-hourpicker' />");
-      for(var i = 1; i <= 12; i += 1) {
+      if (useMeridiem) {
+        var hourCount = 12;
+      } else {
+        var hourCount = 24;
+      }
+      for(var i = 1; i <= hourCount; i += 1) {
         this.hourpicker.append("<option value ='"+ this.format(i) +"'>"+ this.format(i) +"</option>");
       }
       return this.hourpicker;
@@ -77,6 +82,7 @@
 
     this.setupTimepicker = function setupTimepicker(datepickerInst) {
       minuteSpacing = $.datepicker._get(datepickerInst, 'minuteSpacing') || 5;
+      useMeridiem = ($.datepicker._get(datepickerInst, 'useMeridiem') == undefined);
       this.setupHourpicker();
       this.setupMinutepicker();
       this.setupMeridiempicker();
@@ -84,18 +90,17 @@
       this.datepicker = datepickerInst;
       input = this.datepicker.input;
 
-      timepickerDiv.append(this.hourpicker)
-        .append(this.minutepicker)
-        .append(this.meridiempicker);
+      timepickerDiv.append(this.hourpicker).append(this.minutepicker);
+      if (useMeridiem) timepickerDiv.append(this.meridiempicker);
 
       return this;
     };
 
     this.setupCallbacks = function setupCallbacks() {
       var self = this;
-      this.meridiempicker.on('change', function() {self.updateTime()});
       this.hourpicker.on('change', function() {self.updateTime()});
       this.minutepicker.on('change', function() {self.updateTime()});
+      if (useMeridiem) this.meridiempicker.on('change', function() {self.updateTime()});
       input.on('change', function() {self.updateTimePicker()});
     };
 
@@ -150,6 +155,7 @@
     if (!options) var options = {};
     this.datepicker({
       minuteSpacing: options.minuteSpacing,
+      useMeridiem: options.useMeridiem,
       useTimepicker: true
     })
     return this;
