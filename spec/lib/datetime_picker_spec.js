@@ -33,6 +33,20 @@ describe("datetimepicker.js", function () {
         expect($(".ui-datepicker:visible").length).toEqual(1);
       })
 
+      it("does not reset the time when a new date is picked", function () {
+        expect($(".ui-datepicker:visible").length).toEqual(1);
+        $("#ui-datepicker-div table tbody tr td a").eq(10).click();
+        $input.val("03/25/2012 10:40 pm").change();
+        expect($("select.ui-hourpicker").val()).toEqual("10");
+        expect($("select.ui-minutepicker").val()).toEqual("40");
+        expect($("select.ui-meridiempicker").val()).toEqual("pm");
+
+        $("#ui-datepicker-div table tbody tr td a").eq(10).click();
+        expect($("select.ui-hourpicker").val()).toEqual("10");
+        expect($("select.ui-minutepicker").val()).toEqual("40");
+        expect($("select.ui-meridiempicker").val()).toEqual("pm");
+      })
+
       describe("select.hourpicker", function () {
         var $select;
         beforeEach(function () {
@@ -66,7 +80,7 @@ describe("datetimepicker.js", function () {
           expect($input.val()).toEqual(originalValue);
         });
 
-        it("uses the current date when when no date has been selected", function () {
+        it("uses the current date when no date has been selected", function () {
           var dateRegExp = new RegExp($.datepicker._formatDate(inst));
 
           expect($input.val()).not.toMatch(dateRegExp);
@@ -100,7 +114,7 @@ describe("datetimepicker.js", function () {
           expect($input.val()).toMatch(new RegExp($select.val()));
         });
 
-        it("uses the current date when when no date has been selected", function () {
+        it("uses the current date when no date has been selected", function () {
           var dateRegExp = new RegExp($.datepicker._formatDate(inst));
 
           expect($input.val()).not.toMatch(dateRegExp);
@@ -129,7 +143,7 @@ describe("datetimepicker.js", function () {
           expect($input.val()).toMatch(new RegExp($select.val()));
         });
 
-        it("uses the current date when when no date has been selected", function () {
+        it("uses the current date when no date has been selected", function () {
           var dateRegExp = new RegExp($.datepicker._formatDate(inst));
 
           expect($input.val()).not.toMatch(dateRegExp);
