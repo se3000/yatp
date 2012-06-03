@@ -112,8 +112,6 @@ parseDateTime = function parseDateTime(originalTime) {
   };
 
   $.datepicker._originalUpdate = $.datepicker._updateDatepicker;
-  $.datepicker._originalSelectDate = $.datepicker._selectDate;
-
   $.datepicker._updateDatepicker = function myUpdateDatepicker(inst) {
     this._originalUpdate(inst);
     if ($.datepicker._get(inst, 'useTimepicker'))
@@ -122,6 +120,7 @@ parseDateTime = function parseDateTime(originalTime) {
     return this;
   };
 
+  $.datepicker._originalSelectDate = $.datepicker._selectDate;
   $.datepicker._selectDate = function mySelectDate(id, dateStr) {
     var inst = this._getInst($(id)[0]);
     inst.inline = true;
