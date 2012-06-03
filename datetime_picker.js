@@ -1,6 +1,6 @@
 (function ($) {
   function Timepicker() {
-    var timepickerDiv, datepicker, input;
+    var timepickerDiv, datepicker, input, minuteSpacing;
 
     this.updateTime = function updateTime() {
       if (this.transactionFlag) return;
@@ -54,7 +54,7 @@
 
     this.setupMinutepicker = function setupMinutepicker() {
       this.minutepicker = $("<select class='ui-minutepicker' />");
-      for(var i = 0; i <= 59; i += 5) {
+      for(var i = 0; i <= 59; i += minuteSpacing) {
         this.minutepicker.append("<option value ='"+ this.format(i) +"'>"+ this.format(i) +"</option>");
       }
       return this.minutepicker;
@@ -76,6 +76,7 @@
     };
 
     this.setupTimepicker = function setupTimepicker(datepickerInst) {
+      minuteSpacing = $.datepicker._get(datepickerInst, 'minuteSpacing') || 5;
       this.setupHourpicker();
       this.setupMinutepicker();
       this.setupMeridiempicker();
@@ -145,8 +146,10 @@
     return chars;
   };
 
-  $.fn.datetimepicker = function datetimepicker() {
+  $.fn.datetimepicker = function datetimepicker(options) {
+    if (!options) var options = {};
     this.datepicker({
+      minuteSpacing: options.minuteSpacing,
       useTimepicker: true
     })
     return this;
