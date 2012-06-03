@@ -132,6 +132,14 @@ parseDateTime = function parseDateTime(originalTime) {
     return this;
   };
 
+  $.datepicker._originalPossibleChars = $.datepicker._possibleChars;
+  $.datepicker._possibleChars = function possibleChars(format) {
+    var chars = $.datepicker._originalPossibleChars(format);
+    chars = chars + ' apmAPM';
+
+    return chars;
+  };
+
   $.fn.datetimepicker = function datetimepicker() {
     this.datepicker({
       useTimepicker: true

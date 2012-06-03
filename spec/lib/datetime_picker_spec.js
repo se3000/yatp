@@ -1,11 +1,12 @@
 describe("datetimepicker.js", function () {
-  var $input;
+  var $input, inst;
 
   beforeEach(function () {
     var test_dom = "<div><input class='datetimepicker'></input></div>";
     content(test_dom);
     $input = $(".datetimepicker").datetimepicker();
     $input.focus();
+    inst = $.datepicker._getInst($input[0]);
   });
 
   describe("jQuery.fn.datetimepicker", function datepicker() {
@@ -126,6 +127,17 @@ describe("datetimepicker.js", function () {
 
       it("sets the same value in the meridiempicker", function () {
         expect($("select.ui-meridiempicker").val()).toEqual("pm");
+      });
+
+      it("allows you to type chars: ' apmAPM'", function () {
+        var possibleChars = $.datepicker._possibleChars($.datepicker._get(inst, 'dateFormat'))
+        expect(possibleChars).toContain(' ')
+        expect(possibleChars).toContain('a')
+        expect(possibleChars).toContain('p')
+        expect(possibleChars).toContain('m')
+        expect(possibleChars).toContain('A')
+        expect(possibleChars).toContain('P')
+        expect(possibleChars).toContain('M')
       });
     });
   });
