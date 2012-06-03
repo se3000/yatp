@@ -23,12 +23,17 @@ parseDateTime = function parseDateTime(originalTime) {
     this.updateTime = function updateTime() {
       if (this.transactionFlag) return;
       var dateTime = parseDateTime(input.val());
-      var date = dateTime[0], time = dateTime[1];
+      var date = dateTime[0] || this.getDate();
+      var time = dateTime[1];
 
       var hour = this.hourpicker.val();
       var minute = this.minutepicker.val();
       var meridiem = this.meridiempicker.val();
       input.val(date + " " + hour + ":" + minute + " " + meridiem)
+    };
+
+    this.getDate = function getDate() {
+      return $.datepicker._formatDate(this.datepicker)
     };
 
     this.updateTimePicker = function updateTimePicker() {

@@ -1,5 +1,5 @@
 describe("datetimepicker.js", function () {
-  var $input, inst;
+  var $input, inst, timepicker;
 
   beforeEach(function () {
     var test_dom = "<div><input class='datetimepicker'></input></div>";
@@ -7,6 +7,7 @@ describe("datetimepicker.js", function () {
     $input = $(".datetimepicker").datetimepicker();
     $input.focus();
     inst = $.datepicker._getInst($input[0]);
+    timepicker = inst.timepicker;
   });
 
   describe("jQuery.fn.datetimepicker", function datepicker() {
@@ -63,6 +64,14 @@ describe("datetimepicker.js", function () {
         $select.change();
         expect($input.val()).toEqual(originalValue);
       });
+
+      it("uses the current date when when no date has been selected", function () {
+        var dateRegExp = new RegExp($.datepicker._formatDate(inst));
+
+        expect($input.val()).not.toMatch(dateRegExp);
+        $select.change();
+        expect($input.val()).toMatch(dateRegExp);
+      });
     });
 
     describe("select.minutepicker", function () {
@@ -89,6 +98,14 @@ describe("datetimepicker.js", function () {
         $select.change();
         expect($input.val()).toMatch(new RegExp($select.val()));
       });
+
+      it("uses the current date when when no date has been selected", function () {
+        var dateRegExp = new RegExp($.datepicker._formatDate(inst));
+
+        expect($input.val()).not.toMatch(dateRegExp);
+        $select.change();
+        expect($input.val()).toMatch(dateRegExp);
+      });
     });
 
     describe("select.meridiempicker", function () {
@@ -109,6 +126,14 @@ describe("datetimepicker.js", function () {
         expect($input.val()).not.toMatch(new RegExp($select.val()));
         $select.change();
         expect($input.val()).toMatch(new RegExp($select.val()));
+      });
+
+      it("uses the current date when when no date has been selected", function () {
+        var dateRegExp = new RegExp($.datepicker._formatDate(inst));
+
+        expect($input.val()).not.toMatch(dateRegExp);
+        $select.change();
+        expect($input.val()).toMatch(dateRegExp);
       });
     });
 
